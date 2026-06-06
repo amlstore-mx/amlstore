@@ -55,14 +55,43 @@ h1{
     padding:15px;
 }
 
+    header{
+    background:white;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.logo-container{
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+    max-width:1200px;
+    margin:auto;
+
+}
+
+#logo{
+
+    width:90px;
+    height:90px;
+    object-fit:contain;
+
+}
+
 </style>
 
 </head>
 <body>
 
-<header>
-    <h1>AML Store MX</h1>
-    <p>Joyería y accesorios</p>
+<header id="header">
+    <div class="logo-container">
+        <img id="logo">
+        <div>
+            <h1>AML Store MX</h1>
+            <p>Joyería y accesorios</p>
+        </div>
+    </div>
 </header>
 
 <div id="categorias" class="grid"></div>
@@ -75,6 +104,8 @@ const API_URL =
 fetch(API_URL)
 .then(r => r.json())
 .then(data => {
+    document.getElementById("logo")
+    .src = data.logo.url;
 
     const contenedor =
         document.getElementById("categorias");
