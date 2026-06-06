@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AML Store MX</title>
 
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f8f8f8;
+}
+
+header{
+    text-align:center;
+    padding:30px;
+    background:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+h1{
+    margin:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:25px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.card h2{
+    text-align:center;
+    padding:15px;
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+    <h1>AML Store MX</h1>
+    <p>Joyería y accesorios</p>
+</header>
+
+<div id="categorias" class="grid"></div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbyUyG3KOQkGUxBCF7zH9IyvoQCV5QW6SQNvN3hNFb5ch2Ir-kkdMtxgvBMfaDd-3IGiJg/exec";
+
+fetch(API_URL)
+.then(r => r.json())
+.then(data => {
+
+    const contenedor =
+        document.getElementById("categorias");
+
+    data.categorias
+        .filter(c => c.Visible === "SI")
+        .sort((a,b) => a.Orden - b.Orden)
+        .forEach(cat => {
+
+            contenedor.innerHTML += `
+            <div class="card">
+                <img src="${cat.ImagenInfo.url}">
+                <h2>${cat["Categoría"]}</h2>
+            </div>
+            `;
+
+        });
+
+});
+
+</script>
+
+</body>
+</html>
