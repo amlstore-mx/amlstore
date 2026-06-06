@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AML Store MX</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f8f8f8;
+    margin:0;
+}
+
+h1{
+    text-align:center;
+    margin-top:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.card h3{
+    padding:10px;
+}
+
+.card p{
+    padding:0 10px 10px;
+}
+
+.precio{
+    font-weight:bold;
+    color:#b8860b;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 id="titulo"></h1>
+
+<div id="productos" class="grid"></div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbyUyG3KOQkGUxBCF7zH9IyvoQCV5QW6SQNvN3hNFb5ch2Ir-kkdMtxgvBMfaDd-3IGiJg/exec";
+
+const categoria =
+new URLSearchParams(window.location.search)
+.get("categoria");
+
+document.getElementById("titulo")
+.innerText = categoria;
+
+fetch(API_URL)
+.then(r => r.json())
+.then(data => {
+
+    const contenedor =
+    document.getElementById("productos");
+
+    data.productos
+    .filter(p =>
+        p["Categoría"] === categoria
+        && p.Visible === "SI"
+    )
+    .forEach(prod => {
+
+        const foto =
+        prod.Fotos.length > 0
+        ? prod.Fotos[0].url
+        : "";
+
+        contenedor.innerHTML += `
+        <div class="card">
+
+            <img src="${foto}">
+
+            <h3>${prod.Nombre}</h3>
+
+            <p>${prod.Descripción}</p>
+
+            <p class="precio">
+                $${prod.Precio}
+            </p>
+
+        </div>
+        `;
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
