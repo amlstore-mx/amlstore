@@ -85,10 +85,15 @@ fetch(API_URL)
         .forEach(cat => {
 
             contenedor.innerHTML += `
+            <a
+            href="categoria.html?categoria=${cat["Categoría"]}"
+            style="text-decoration:none;color:black;"
+            >
             <div class="card">
                 <img src="${cat.ImagenInfo.url}">
                 <h2>${cat["Categoría"]}</h2>
             </div>
+            </a>
             `;
 
         });
