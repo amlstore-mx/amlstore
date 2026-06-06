@@ -104,8 +104,8 @@ const API_URL =
 fetch(API_URL)
 .then(r => r.json())
 .then(data => {
-    document.getElementById("logo")
-    .src = data.logo.url;
+    document.getElementById("logo").src =
+"https://drive.google.com/thumbnail?id=1Zi-2TJBnyStCdODUEwB_Fmy5DT7vGBAB&sz=w1200";
 
     const contenedor =
         document.getElementById("categorias");
