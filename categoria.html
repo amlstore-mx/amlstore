@@ -1,119 +1,485 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>AML Store MX</title>
+    <title>AML Store MX</title>
 
-<style>
+    <style>
+        *{
+            box-sizing:border-box;
+        }
 
-body{
-    font-family:Arial,sans-serif;
-    background:#f8f8f8;
-    margin:0;
-}
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#f8f8f8;
+            color:#222;
+        }
 
-h1{
-    text-align:center;
-    margin-top:20px;
-}
+        /* Encabezado */
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    padding:20px;
-}
+        header{
+            background:white;
+            padding:20px;
+            box-shadow:0 2px 8px rgba(0,0,0,.1);
+        }
 
-.card{
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
+        .encabezado{
+            max-width:1200px;
+            margin:auto;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+        }
 
-.card img{
-    width:100%;
-    height:250px;
-    object-fit:cover;
-}
+        .boton-regresar{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:11px 18px;
+            border-radius:25px;
+            background:#222;
+            color:white;
+            text-decoration:none;
+            font-weight:bold;
+            transition:.2s;
+        }
 
-.card h3{
-    padding:10px;
-}
+        .boton-regresar:hover{
+            background:#555;
+            transform:translateY(-1px);
+        }
 
-.card p{
-    padding:0 10px 10px;
-}
+        #titulo{
+            margin:0;
+            text-align:center;
+            flex:1;
+            font-size:32px;
+        }
 
-.precio{
-    font-weight:bold;
-    color:#b8860b;
-}
+        .espacio-derecho{
+            width:165px;
+        }
 
-</style>
+        /* Mensajes */
 
+        #loading,
+        #mensaje{
+            text-align:center;
+            padding:45px 20px;
+            font-size:20px;
+            color:#666;
+        }
+
+        #mensaje{
+            display:none;
+        }
+
+        .cargador{
+            width:38px;
+            height:38px;
+            margin:0 auto 15px;
+            border:4px solid #ddd;
+            border-top-color:#222;
+            border-radius:50%;
+            animation:girar .8s linear infinite;
+        }
+
+        @keyframes girar{
+            to{
+                transform:rotate(360deg);
+            }
+        }
+
+        /* Productos */
+
+        .grid{
+            max-width:1300px;
+            margin:auto;
+            display:grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap:24px;
+            padding:30px;
+        }
+
+        .card{
+            background:white;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 3px 12px rgba(0,0,0,.12);
+            transition:.25s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 7px 18px rgba(0,0,0,.16);
+        }
+
+        .card img{
+            display:block;
+            width:100%;
+            height:280px;
+            object-fit:cover;
+            background:#eee;
+        }
+
+        .contenido{
+            padding:18px;
+        }
+
+        .card h3{
+            margin:0 0 10px;
+            font-size:21px;
+        }
+
+        .descripcion{
+            margin:0 0 12px;
+            color:#666;
+            line-height:1.5;
+        }
+
+        .material{
+            margin:8px 0;
+        }
+
+        .precio{
+            margin:12px 0 5px;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .estado{
+            display:inline-block;
+            margin-top:8px;
+            padding:6px 12px;
+            border-radius:16px;
+            background:#eef8ee;
+            color:#237323;
+            font-weight:bold;
+            font-size:14px;
+        }
+
+        /* Red social */
+
+        .redes{
+            margin-top:25px;
+            padding:35px 20px;
+            text-align:center;
+            background:white;
+            border-top:1px solid #e6e6e6;
+        }
+
+        .redes h2{
+            margin-top:0;
+        }
+
+        .enlace-red{
+            display:inline-flex;
+            flex-direction:column;
+            align-items:center;
+            gap:10px;
+            color:#222;
+            text-decoration:none;
+        }
+
+        .imagen-red{
+            width:76px;
+            height:76px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#f1e7e9;
+            box-shadow:0 3px 10px rgba(0,0,0,.12);
+            transition:.2s;
+        }
+
+        .imagen-red:hover{
+            transform:scale(1.06);
+        }
+
+        .imagen-red svg{
+            width:38px;
+            height:38px;
+        }
+
+        .texto-provisional{
+            color:#777;
+            font-size:14px;
+        }
+
+        @media(max-width:650px){
+            .encabezado{
+                flex-direction:column;
+            }
+
+            .espacio-derecho{
+                display:none;
+            }
+
+            #titulo{
+                font-size:27px;
+            }
+
+            .boton-regresar{
+                align-self:flex-start;
+            }
+
+            .grid{
+                padding:20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1 id="titulo"></h1>
+<header>
+    <div class="encabezado">
 
-<div id="productos" class="grid"></div>
+        <a
+            href="index.html"
+            class="boton-regresar"
+        >
+            ← Regresar
+        </a>
 
-<script>
+        <h1 id="titulo">Categoría</h1>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbyUyG3KOQkGUxBCF7zH9IyvoQCV5QW6SQNvN3hNFb5ch2Ir-kkdMtxgvBMfaDd-3IGiJg/exec";
+        <div class="espacio-derecho"></div>
 
-const categoria =
-new URLSearchParams(window.location.search)
-.get("categoria");
+    </div>
+</header>
 
-document.getElementById("titulo")
-.innerText = categoria;
+<div id="loading">
+    <div class="cargador"></div>
+    Cargando productos...
+</div>
 
-fetch(API_URL)
-.then(r => r.json())
-.then(data => {
+<div id="mensaje"></div>
 
-    const contenedor =
-    document.getElementById("productos");
+<main
+    id="productos"
+    class="grid"
+></main>
 
-    data.productos
-    .filter(p =>
-        p["Categoría"] === categoria
-        && p.Visible === "SI"
-    )
-    .forEach(prod => {
+<section class="redes">
 
-        const foto =
-        prod.Fotos.length > 0
-        ? prod.Fotos[0].url
-        : "";
+    <h2>Síguenos en nuestras redes</h2>
 
-        contenedor.innerHTML += `
-        <div class="card">
+    <!--
+        Más adelante cambia href="#" por la URL real,
+        por ejemplo:
+        href="https://www.instagram.com/amlstore.mx/"
+    -->
 
-            <img src="${foto}">
+    <a
+        id="enlaceRedSocial"
+        class="enlace-red"
+        href="#"
+        aria-label="Red social de AML Store MX"
+    >
+        <div class="imagen-red">
 
-            <h3>${prod.Nombre}</h3>
+            <!-- Imagen comodín en formato SVG -->
 
-            <p>${prod.Descripción}</p>
-
-            <p class="precio">
-                $${prod.Precio}
-            </p>
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="12" r="9"></circle>
+                <circle cx="12" cy="10" r="3"></circle>
+                <path d="M6.8 18c1.2-3 3-4.4 5.2-4.4S16 15 17.2 18"></path>
+            </svg>
 
         </div>
+
+        <strong>AML Store MX</strong>
+
+        <span class="texto-provisional">
+            Próximamente
+        </span>
+    </a>
+
+</section>
+
+<script>
+    const API_URL =
+        "https://script.google.com/macros/s/AKfycbyUyG3KOQkGUxBCF7zH9IyvoQCV5QW6SQNvN3hNFb5ch2Ir-kkdMtxgvBMfaDd-3IGiJg/exec";
+
+    const parametros =
+        new URLSearchParams(window.location.search);
+
+    const categoria =
+        parametros.get("categoria");
+
+    const titulo =
+        document.getElementById("titulo");
+
+    const contenedor =
+        document.getElementById("productos");
+
+    const loading =
+        document.getElementById("loading");
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    titulo.textContent =
+        categoria || "Productos";
+
+    cargarProductos();
+
+    async function cargarProductos(){
+        try{
+            const respuesta =
+                await fetch(API_URL);
+
+            if(!respuesta.ok){
+                throw new Error(
+                    "No fue posible consultar el catálogo."
+                );
+            }
+
+            const data =
+                await respuesta.json();
+
+            const productos =
+                data.productos
+                    .filter(producto =>
+                        producto["Categoría"] === categoria &&
+                        String(producto.Visible)
+                            .trim()
+                            .toUpperCase() === "SI"
+                    )
+                    .sort(
+                        (a, b) =>
+                            Number(a.OrdenCategoria || 0) -
+                            Number(b.OrdenCategoria || 0)
+                    );
+
+            loading.style.display = "none";
+
+            if(productos.length === 0){
+                mostrarMensaje(
+                    "Por el momento no hay productos disponibles en esta categoría."
+                );
+                return;
+            }
+
+            productos.forEach(
+                (producto, indice) =>
+                    crearTarjeta(producto, indice)
+            );
+
+        }catch(error){
+            console.error(error);
+
+            loading.style.display = "none";
+
+            mostrarMensaje(
+                "No pudimos cargar los productos. Intenta nuevamente en unos momentos."
+            );
+        }
+    }
+
+    function crearTarjeta(producto, indice){
+        const foto =
+            producto.Fotos &&
+            producto.Fotos.length > 0
+                ? producto.Fotos[0].url
+                : "";
+
+        const cargaImagen =
+            indice < 4
+                ? "eager"
+                : "lazy";
+
+        const tarjeta =
+            document.createElement("article");
+
+        tarjeta.className = "card";
+
+        tarjeta.innerHTML = `
+            ${
+                foto
+                ? `
+                    <img
+                        src="${foto}"
+                        alt="${producto.Nombre}"
+                        loading="${cargaImagen}"
+                        decoding="async"
+                    >
+                  `
+                : `
+                    <div
+                        style="
+                            height:280px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#eee;
+                            color:#777;
+                        "
+                    >
+                        Sin fotografía
+                    </div>
+                  `
+            }
+
+            <div class="contenido">
+
+                <h3>${producto.Nombre}</h3>
+
+                <p class="descripcion">
+                    ${producto["Descripción"] || ""}
+                </p>
+
+                <p class="material">
+                    <strong>Material:</strong>
+                    ${producto.Material || "No especificado"}
+                </p>
+
+                <p class="precio">
+                    $${Number(producto.Precio || 0)
+                        .toLocaleString("es-MX")}
+                </p>
+
+                <span class="estado">
+                    ${producto.Estado || "Consultar"}
+                </span>
+
+            </div>
         `;
 
-    });
+        contenedor.appendChild(tarjeta);
+    }
 
-});
+    function mostrarMensaje(texto){
+        mensaje.textContent = texto;
+        mensaje.style.display = "block";
+    }
 
+    /*
+      Cuando tengas la URL de la red social,
+      sustituye "#" por la dirección correspondiente:
+
+      document
+          .getElementById("enlaceRedSocial")
+          .href =
+          "https://www.instagram.com/amlstore.mx/";
+    */
 </script>
 
 </body>
