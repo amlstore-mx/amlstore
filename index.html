@@ -86,6 +86,59 @@ h1{
     margin-bottom:10px;
     font-size:32px;
 }
+
+.redes{
+    margin-top:35px;
+    padding:45px 20px;
+    text-align:center;
+    background:white;
+    border-top:1px solid #e8e8e8;
+}
+
+.redes h2{
+    margin:0 0 10px;
+    font-size:30px;
+}
+
+.texto-redes{
+    margin:0 0 28px;
+    color:#666;
+}
+
+.contenedor-redes{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+}
+
+.red-social{
+    min-width:120px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    color:#222;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.red-social:hover{
+    transform:translateY(-4px);
+}
+
+.icono-red{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3e6e9;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+    font-size:28px;
+}
 </style>
 
 </head>
@@ -111,6 +164,49 @@ h1{
     
 <div id="categorias" class="grid"></div>
 
+<section class="redes">
+
+    <h2>Síguenos en nuestras redes</h2>
+
+    <!--
+        Más adelante cambia href="#" por la URL real,
+        por ejemplo:
+        href="https://www.instagram.com/amlstore.mx/"
+    -->
+
+    <a
+        id="enlaceRedSocial"
+        class="enlace-red"
+        href="#"
+        aria-label="Red social de AML Store MX"
+    >
+        <div class="imagen-red">
+
+            <!-- Imagen comodín en formato SVG -->
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="12" r="9"></circle>
+                <circle cx="12" cy="10" r="3"></circle>
+                <path d="M6.8 18c1.2-3 3-4.4 5.2-4.4S16 15 17.2 18"></path>
+            </svg>
+
+        </div>
+
+        <strong>AML Store MX</strong>
+
+        <span class="texto-provisional">
+            Próximamente
+        </span>
+    </a>
+
+</section>
+    
 <script>
 
 const API_URL =
